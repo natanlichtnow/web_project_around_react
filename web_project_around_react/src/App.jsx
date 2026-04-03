@@ -1,119 +1,157 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import reactLogo from 'assets/react.svg'
+import viteLogo from 'assets/vite.svg'
+import heroImgpm from 'assets/hero.png'
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
+          <div class="page__content">
+      <header class="header page__section">
+        <img
+          alt="Logotipo Around The U.S."
+          class="logo header__logo"
+          src="./images/logo.svg"
+        />
+      </header>
+      <main class="content">
+        <section class="profile page__section">
+          <div class="profile__avatar-container">
+            <img class="profile__image" src="./images/avatar.jpg" alt="Avatar" />
+            <button
+              aria-label="Editar foto de perfil"
+              class="profile__avatar-edit-button"
+              type="button"
+            ></button>
+          </div>
+          <div class="profile__info">
+            <h1 class="profile__title">Jacques Cousteau</h1>
+            <button
+              aria-label="Editar perfil"
+              class="profile__edit-button"
+              type="button"
+            ></button>
+            <p class="profile__description">Explorador</p>
+          </div>
+          <button
+            aria-label="Adicionar cartão"
+            class="profile__add-button"
+            type="button"
+          ></button>
+        </section>
+        <section class="cards page__section">
+          <ul class="cards__list">
+            
           </ul>
+        </section>
+      </main>
+      <footer class="footer page__section">
+        <p class="footer__copyright">© 2025 Around The U.S.</p>
+      </footer>
+      <div class="popup" id="edit-popup">
+        <div class="popup__content">
+          <button
+            aria-label="Fechar pop-up"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Editar perfil</h3>
+          <form class="popup__form" id="edit-profile-form">
+            <input
+              class="popup__input popup__input_type_name"
+              name="name"
+              placeholder="Nome"
+              type="text"
+              minlength="2"
+              maxlength="40"
+            />
+            <input
+              class="popup__input popup__input_type_description"
+              name="description"
+              placeholder="Sobre mim"
+              type="text"
+              minlength="2"
+              maxlength="200"
+            />
+            <button class="button popup__button" type="submit" disabled>Salvar</button>
+          </form>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      </div>
+      <div class="popup" id="new-card-popup">
+        <div class="popup__content">
+          <button
+            aria-label="Fechar pop-up"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Novo local</h3>
+          <form class="popup__form" id="new-card-form">
+            <input
+              class="popup__input popup__input_type_card-name"
+              name="place-name"
+              placeholder="Título"
+              required
+              type="text"
+            />
+            <input
+              class="popup__input popup__input_type_url"
+              name="image-link"
+              placeholder="Link de Imagem"
+              required
+              type="url"
+            />
+            <button class="button popup__button" type="submit" disabled>Criar</button>
+          </form>
         </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      </div>
+      <div class="popup" id="image-popup">
+        <div class="popup__content popup__content_content_image">
+          <button
+            aria-label="Fechar pop-up"
+            class="popup__close"
+            type="button"
+          ></button>
+          <img alt="Imagem ampliada" class="popup__image" src="#" />
+          <p class="popup__caption"></p>
+        </div>
+      </div>
+      <div class="popup" id="edit-avatar-popup">
+        <div class="popup__content">
+          <button
+            aria-label="Fechar pop-up"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Alterar foto do perfil</h3>
+          <form class="popup__form" id="edit-avatar-form">
+            <input
+              class="popup__input popup__input_type_avatar"
+              name="avatar"
+              placeholder="Link da imagem"
+              required
+              type="url"
+            />
+            <button class="button popup__button" type="submit" disabled>Salvar</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup" id="delete-card-popup">
+        <div class="popup__content popup__content_type_confirm">
+          <button
+            aria-label="Fechar pop-up"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Tem certeza?</h3>
+          <form class="popup__form" id="delete-card-form">
+            <button class="button popup__button" type="submit">Sim</button>
+          </form>
+        </div>
+      </div>
+    </div>
     </>
   )
 }
