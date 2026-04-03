@@ -1,16 +1,10 @@
-import logo from "./images/logo.svg";
-import avatar from "./images/avatar.jpg";
+import avatar from "../images/avatar.jpg";
+import Header from "./Header/Header";
 
 function App() {
   return (
     <div className="page__content">
-      <header className="header page__section">
-        <img
-          src={logo}
-          alt="Around the U.S logo"
-          className="logo header__logo"
-        />
-      </header>
+      <Header />
       <main className="content">
         <section className="profile page__section">
           <div className="profile__avatar-container">
