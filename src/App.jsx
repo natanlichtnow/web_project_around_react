@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import api from "./utils/api";
-import CurrentUserContext from "./contexts/CurrentUserContext";
 import AppLayout from "./components/App";
 
 function App() {
@@ -69,17 +68,18 @@ function App() {
   };
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}>
-      <AppLayout
-        onOpenPopup={handleOpenPopup}
-        onClosePopup={handleClosePopup}
-        popup={popup}
-        cards={cards}
-        onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
-        onAddPlaceSubmit={handleAddPlaceSubmit}
-      />
-    </CurrentUserContext.Provider>
+    <AppLayout
+      onOpenPopup={handleOpenPopup}
+      onClosePopup={handleClosePopup}
+      popup={popup}
+      cards={cards}
+      onCardLike={handleCardLike}
+      onCardDelete={handleCardDelete}
+      onAddPlaceSubmit={handleAddPlaceSubmit}
+      currentUser={currentUser}
+      handleUpdateUser={handleUpdateUser}
+      handleUpdateAvatar={handleUpdateAvatar}
+    />
   );
 }
 
