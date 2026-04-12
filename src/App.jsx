@@ -1,52 +1,86 @@
-import logo from "./images/logo.svg";
-import avatar from "./images/avatar.jpg";
+import React, { useState, useEffect } from "react";
+import api from "./utils/api";
+import CurrentUserContext from "./contexts/CurrentUserContext";
+import AppLayout from "./components/App";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [popup, setPopup] = useState(null);
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    api.getUserInfo()
+      .then((data) => setCurrentUser(data))
+      .catch((err) => console.error("Erro ao buscar dados do usuário:", err));
+  }, []);
+
+  useEffect(() => {
+    api.getInitialCards()
+      .then((data) => setCards(data))
+      .catch((err) => console.error("Erro ao buscar cards:", err));
+  }, []);
+
+  const handleOpenPopup = (p) => setPopup(p);
+  const handleClosePopup = () => setPopup(null);
+
+  const handleUpdateUser = (data) => {
+    api.updateUserInfo(data)
+      .then((newData) => {
+        setCurrentUser(newData);
+        handleClosePopup();
+      })
+      .catch((err) => console.error("Erro ao atualizar usuário:", err));
+  };
+
+  const handleUpdateAvatar = (data) => {
+    api.updateAvatar(data)
+      .then((newData) => {
+        setCurrentUser(newData);
+        handleClosePopup();
+      })
+      .catch((err) => console.error("Erro ao atualizar avatar:", err));
+  };
+
+  async function handleCardLike(card) {
+    try {
+      const newCard = await api.changeLikeCardStatus(card._id, !card.isLiked);
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    } catch (err) {
+      console.error('Erro ao curtir/descurtir card:', err);
+    }
+  }
+
+  async function handleCardDelete(card) {
+    try {
+      await api.deleteCard(card._id);
+      setCards((state) => state.filter((c) => c._id !== card._id));
+    } catch (err) {
+      console.error('Erro ao deletar card:', err);
+    }
+  }
+
+  const handleAddPlaceSubmit = (data) => {
+    api.addCard(data)
+      .then((newCard) => {
+        setCards((state) => [newCard, ...state]);
+        handleClosePopup();
+      })
+      .catch((err) => console.error('Erro ao adicionar card:', err));
+  };
+
   return (
-    <div className="page__content">
-      <header className="header page__section">
-        <img
-          src={logo}
-          alt="Around the U.S logo"
-          className="logo header__logo"
-        />
-      </header>
-      <main className="content">
-        <section className="profile page__section">
-          <div className="profile__avatar-container">
-            <img className="profile__image" src={avatar} alt="Avatar" />
-            <button
-              aria-label="Editar foto de perfil"
-              className="profile__avatar-edit-button"
-              type="button"
-            ></button>
-          </div>
-          <div className="profile__info">
-            <h1 className="profile__title">Jacques Cousteau</h1>
-            <button
-              aria-label="Editar perfil"
-              className="profile__edit-button"
-              type="button"
-            ></button>
-            <p className="profile__description">Explorador</p>
-          </div>
-          <button
-            aria-label="Adicionar cartão"
-            className="profile__add-button"
-            type="button"
-          ></button>
-        </section>
-        <section className="cards page__section">
-          <ul className="cards__list">
-            
-          </ul>
-        </section>
-      </main>
-      <footer className="footer page__section">
-        <p className="footer__copyright">© 2025 Around The U.S.</p>
-      </footer>
-    </div>
-  )
+    <CurrentUserContext.Provider value={{ currentUser, handleUpdateUser, handleUpdateAvatar }}>
+      <AppLayout
+        onOpenPopup={handleOpenPopup}
+        onClosePopup={handleClosePopup}
+        popup={popup}
+        cards={cards}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
+        onAddPlaceSubmit={handleAddPlaceSubmit}
+      />
+    </CurrentUserContext.Provider>
+  );
 }
 
-export default App
+export default App;

@@ -1,13 +1,27 @@
-export default function NewCard() {
+import { useRef } from "react";
+
+export default function NewCard({ onAddPlaceSubmit }) {
+  const nameRef = useRef(null);
+  const linkRef = useRef(null);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (onAddPlaceSubmit && nameRef.current && linkRef.current) {
+      onAddPlaceSubmit({ name: nameRef.current.value, link: linkRef.current.value });
+    }
+  }
+
   return (
     <form
       className="popup__form"
       name="card-form"
       id="new-card-form"
       noValidate
+      onSubmit={handleSubmit}
     >
       <label className="popup__field">
         <input
+          ref={nameRef}
           className="popup__input popup__input_type_card-name"
           id="card-name"
           maxLength="30"
@@ -21,6 +35,7 @@ export default function NewCard() {
       </label>
       <label className="popup__field">
         <input
+          ref={linkRef}
           className="popup__input popup__input_type_url"
           id="card-link"
           name="link"
