@@ -1,8 +1,13 @@
-export default function RemoveCard() {
+export default function RemoveCard({ onConfirm }) {
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (onConfirm) onConfirm();
+  }
+
   return (
     <>
-      <h3 className="popup__title">Tem certeza?</h3>
-      <form className="popup__form" id="delete-card-form">
+      
+      <form className="popup__form" id="delete-card-form" onSubmit={handleSubmit}>
         <button className="button popup__button" type="submit">Sim</button>
       </form>
     </>

@@ -41,9 +41,22 @@ function App() {
   };
 
   async function handleCardLike(card) {
+    if (!currentUser) return;
+    const isLiked = Array.isArray(card.likes) && card.likes.some((u) => u._id === currentUser._id);
     try {
-      const newCard = await api.changeLikeCardStatus(card._id, !card.isLiked);
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+      let newCard = await api.changeLikeCardStatus(card._id, !isLiked);
+      // Se o backend não retornar o campo likes, preserva o antigo ou cria um array
+      if (!newCard.likes) {
+        const oldLikes = Array.isArray(card.likes) ? card.likes : [];
+        newCard = { ...newCard, likes: isLiked
+          ? oldLikes.filter((u) => u._id !== currentUser._id)
+          : [...oldLikes, { _id: currentUser._id }] };
+      }
+      setCards((state) => {
+        const updated = state.map((c) => (c._id === card._id ? newCard : c));
+        console.log('Like atualizado:', newCard, updated);
+        return updated;
+      });
     } catch (err) {
       console.error('Erro ao curtir/descurtir card:', err);
     }
